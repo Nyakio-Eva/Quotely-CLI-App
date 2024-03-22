@@ -105,7 +105,17 @@ class Quote:
            
         return all_quotes
         
+    def get_quotes_by_author(self, author_name):
+        """retrieve quotes based on an author"""
+        sql = "SELECT * FROM quotes WHERE author = ?"
+        CURSOR.execute(sql, (author_name,))
+        quotes_data = CURSOR.fetchall()
 
+        quotes_by_author = []
+        for quote_data in quotes_data:
+            quote_instance = Quote(*quote_data)
+            quotes_by_author.append(quote_instance)
+        return quotes_by_author    
 
 
 from models.category import Category

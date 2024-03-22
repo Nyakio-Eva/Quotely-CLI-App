@@ -113,6 +113,9 @@ class Category:
            
         return all_categories
         
+    # def get_category_by_name(self, name):
+    #     """retrieve categories based on a name"""
+    #     return Category.find_by_name(name)  # Call find_by_name method
 
-
+        
 from models.quote import Quote
