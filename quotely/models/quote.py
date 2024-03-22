@@ -10,18 +10,17 @@ class Quote:
         self.category_id = category_id
 
     def __repr__(self) -> str:
-        return f"<Quote {self.id}: {self.quote_text}, {self.author}, Category ID: {self.category_id}>"    
+        return f"<Quote: {self.quote_text}, {self.author}, Author: {self.category_id}, Category: {self.id}>"
+    # @property
+    # def quote_text(self):
+    #     return self._quote_text
 
-    @property
-    def quote_text(self):
-        return self._quote_text
-
-    @quote_text.setter
-    def quote_text(self, quote_text):
-        if isinstance(quote_text, str) and len(quote_text):
-            self._quote_text = quote_text
-        else:
-            raise ValueError("quote must be a non-empty string")
+    # @quote_text.setter
+    # def quote_text(self, quote_text):
+    #     if isinstance(quote_text, str) and len(quote_text):
+    #         self._quote_text = quote_text
+    #     else:
+    #         raise ValueError("quote must be a non-empty string")
 
     @property
     def author(self):
@@ -34,7 +33,6 @@ class Quote:
         else:
             raise ValueError("author must be a non-empty string")
 
-   
 
     @classmethod
     def create_table(cls):
@@ -92,8 +90,21 @@ class Quote:
             return cls(*quote_data)  # Create and return quote object from query result
         else:
             return None
-
-
+    
+    @classmethod
+    def get_all_quotes(cls):
+        """retrieve all quotes from the database"""
+        
+        sql = "SELECT * FROM quotes"
+        CURSOR.execute(sql)
+        all_quotes_data = CURSOR.fetchall()
+        
+        all_quotes = []
+        for quote_data in all_quotes_data:
+            all_quotes.append(cls(*quote_data))
+           
+        return all_quotes
+        
 
 
 

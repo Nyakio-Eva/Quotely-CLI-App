@@ -7,17 +7,26 @@ class Category:
     def __init__(self,name,id=None) -> None:
         self.id =id
         self.name = name
-        
-    @property
-    def name(self):
-        return self._name 
 
-    @name.setter
-    def name(self, name):
-        if isinstance(name, str) and len(name):
-            self._name = name
-        else:
-            raise ValueError("name must be a non-empty string")
+    def __repr__(self) -> str:
+        return f"<Category: {self.name}, {self.id} >"    
+    
+
+    # @property
+    # def name(self):
+    #     return self.name 
+
+    # @name.setter
+    # def name(self, name):
+    #     if isinstance(name, str):
+    #         cleaned_name = name.strip()   #remove trailing whitespaces
+    #         if cleaned_name and  len(cleaned_name) >= 2 and len(cleaned_name) <= 15:
+    #             self.name = cleaned_name
+    #         else:
+    #             raise ValueError("name must be between 2 and 15 characters")
+                
+    #     else:
+    #         raise ValueError("name must be a non-empty string")
         
     @classmethod
     def create_table(cls):
@@ -45,6 +54,7 @@ class Category:
         """create a new instance of category  and save it to the database"""
         category = cls(name)
         category.save()
+       
         return category
     
     def save(self):
@@ -60,26 +70,49 @@ class Category:
         self.id = CURSOR.lastrowid  #provides primary key value of the newly inserted row
         type(self).all[self.id] = self  #store instance to local class-level dictionary
 
-    # @classmethod
-    # def find_by_id(cls, category_id):
-    #     """returns a category object based on its ID"""
+    @classmethod
+    def find_by_id(cls, category_id):
+        """returns a category object based on its ID"""
 
-    #     sql = "SELECT * FROM categories WHERE id = ?"
+        sql = "SELECT * FROM categories WHERE id = ?"
 
-    #     CURSOR.execute(sql, (category_id,))
-    #     category_data = CURSOR.fetchone()
-    #     CONN.commit()
-    #     if category_data:
-    #         print(category_data)
-    #         return cls(*category_data)  ## Create and return category object from query result
-            
-    #     else:
-    #         return None
+        CURSOR.execute(sql, (category_id,))
+        category_data = CURSOR.fetchone()
+        CONN.commit()
+        if category_data:
+           print("Found category:", category_data)
+           return cls(*category_data)  # Create and return category object from query result
+        else:
+           return None
+
     
+    @classmethod
+    def find_by_name(cls, category_name):
+        """Returns a category object based on its name"""
+        sql = "SELECT * FROM categories WHERE name = ?"
+        CURSOR.execute(sql, (category_name,))
+        category_data = CURSOR.fetchone()
+        CONN.commit()
+        if category_data:
+            
+            return cls(*category_data)
+        else:
+            return None
 
-
-
-
+    @classmethod
+    def get_all_categories(cls):
+        """retrieve all categories from the database""" 
+        sql = "SELECT * FROM categories"
+        CURSOR.execute(sql)
+        all_categories_data = CURSOR.fetchall()
+        
+        all_categories = []
+        for category_data in all_categories_data:
+            category_instance = cls(*category_data)
+            all_categories.append(category_instance)
+           
+        return all_categories
+        
 
 
 from models.quote import Quote
