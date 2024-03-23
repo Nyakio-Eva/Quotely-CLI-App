@@ -156,8 +156,24 @@ class Category:
 
             return quotes 
         except Exception as e:
-            print("Error fetching quotes:", e)  
-    
+            print("Error fetching quotes:", e) 
+
+    @classmethod
+    def update_category(cls, category_id, new_name):
+        """Update an existing category by ID with a new name"""
+        sql = "UPDATE categories SET name = ? WHERE id = ?"
+        CURSOR.execute(sql, (new_name, category_id))
+        CONN.commit()
+
+        # Check if any rows were affected by the update
+        if CURSOR.rowcount > 0:
+            # Update the local dictionary if category exists in it
+            if category_id in cls.all:
+                cls.all[category_id].name = new_name
+            return cls.find_by_id(category_id)  # Return the updated category
+        else:
+            return None  # No category was updated
+        
     @classmethod
     def delete(cls, category_id):
         """Delete a category from the database and the local dictionary based on its ID"""

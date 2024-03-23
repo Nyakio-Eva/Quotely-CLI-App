@@ -156,6 +156,32 @@ class Quote:
         return categories
 
     @classmethod
+    def update_quote(cls, quote_id, quote_text, author, category_id):
+        """Update an existing quote by ID with new details"""
+        # Update in database
+        sql = """
+            UPDATE quotes 
+            SET quote_text = ?, author = ?, category_id = ? 
+            WHERE id = ?
+        """
+        CURSOR.execute(sql, (quote_text, author, category_id, quote_id))
+        CONN.commit()
+
+        # Check if any rows were affected by the update
+        if CURSOR.rowcount > 0:
+            # Update the local dictionary if quote exists in it
+            if quote_id in cls.all:
+                cls.all[quote_id].quote_text = quote_text
+                cls.all[quote_id].author = author
+                cls.all[quote_id].category_id = category_id
+            print(f"Quote with ID {quote_id} updated successfully.")
+            return cls.find_by_id(quote_id)  # Return the updated quote
+        else:
+            print(f"Quote with ID {quote_id} not found or no changes were made.")
+            return None  # No quote was updated or quote not found
+        
+        
+    @classmethod
     def delete(cls, quote_id):
         """Delete a quote from the database and the local dictionary based on its ID"""
         # Check if the quote ID exists in the local dictionary
