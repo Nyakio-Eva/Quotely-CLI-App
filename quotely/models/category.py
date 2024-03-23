@@ -80,7 +80,7 @@ class Category:
         category_data = CURSOR.fetchone()
         CONN.commit()
         if category_data:
-           print("Found category:", category_data)
+           #print("Found category:", category_data)
            return cls(*category_data)  # Create and return category object from query result
         else:
            return None
@@ -113,9 +113,31 @@ class Category:
            
         return all_categories
         
-    # def get_category_by_name(self, name):
-    #     """retrieve categories based on a name"""
-    #     return Category.find_by_name(name)  # Call find_by_name method
+    def get_quotes_for_categories(cls, category_ids):
+        """retrieve quotes belonging to categories specified by their ids"""
+
+        #generate placeholders for the IN clause based on the number of category IDs
+        placeholders = ','.join(['?' for _ in range(len(category_ids))])
+
+        #query with dynamic placeholders
+        sql = f"SELECT * FROM quotes WHERE category_id IN ({placeholders})"
+        #print("sql query:", sql)
+
+        try:
+            CURSOR.execute(sql, category_ids)
+            quotes_data = CURSOR.fetchall()
+            #print("quotes data:", quotes_data)
+            
+            quotes = []
+            for quote_data in quotes_data:
+                quote_instance = Quote(*quote_data)
+                quotes.append(quote_instance)
+                #print("found quote:", quote_instance)
+
+            return quotes 
+        except Exception as e:
+            print("Error fetching quotes:", e)  
+
 
         
 from models.quote import Quote

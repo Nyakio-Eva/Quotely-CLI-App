@@ -117,5 +117,20 @@ class Quote:
             quotes_by_author.append(quote_instance)
         return quotes_by_author    
 
+    @classmethod
+    def get_category_ids_for_author(cls, author_name):
+        """Retrieve category ids associated with quotes by a specific author"""
+        sql = "SELECT DISTINCT category_id FROM quotes WHERE author = ?"
+        CURSOR.execute(sql, (author_name,))
+        category_ids = CURSOR.fetchall()
+        return[category_id[0] for category_id in category_ids]
+    
+    @classmethod
+    def get_categories_for_author(cls, author_name):
+        """Retrieve categories associated with quotes by a specific author"""
+        category_ids = cls.get_category_ids_for_author(author_name)
+        categories = [Category.find_by_id(category_id) for category_id in category_ids if category_id is not None]
+        return categories
+
 
 from models.category import Category
