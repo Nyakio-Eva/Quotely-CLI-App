@@ -51,11 +51,31 @@ class Category:
 
     @classmethod
     def create(cls, name ) :
-        """create a new instance of category  and save it to the database"""
+        """create a new instance of category  and save it to the database if it doesnot exist"""
+        existing_category = cls.find_existing_category(name)
+        if existing_category:
+            print(f"Category '{name}' already exists.")
+            return existing_category
+        
+        #if the category with the name doesnot exist
         category = cls(name)
         category.save()
        
         return category
+    
+    @classmethod
+    def find_existing_category(cls, name):
+        """check if a category with the given name already exists."""
+        sql = "SELECT * FROM categories WHERE name =? "
+        CURSOR.execute(sql, (name,))
+        existing_category_data = CURSOR.fetchone()
+        CONN.commit() 
+
+        if existing_category_data:
+            return cls(*existing_category_data)
+        else:
+            return None
+        
     
     def save(self):
         """insert a new row with attribute values of the category instance using primary key id,

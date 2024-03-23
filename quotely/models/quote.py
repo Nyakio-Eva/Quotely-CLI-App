@@ -60,9 +60,32 @@ class Quote:
     @classmethod
     def create(cls, quote_text, author, category_id ) :
         """create a new instance of quote  and save it to the database"""
+        #check if a quote with the same text ,author and category id already exists
+        existing_quote = cls.find_existing_quote(quote_text,author,category_id)
+        if existing_quote:
+            print("Quote already exists.")
+            return existing_quote
+        
+        #if quote doesn't exist, create a new instance nd save it
         quote = cls(quote_text,author,category_id)
         quote.save()
         return quote
+    
+    @classmethod
+    def find_existing_quote(cls,quote_text, author, category_id):
+        """check if a quote with the same text, author and category id exists """
+        sql = """SELECT * FROM quotes 
+            WHERE quote_text =? 
+            AND author =? 
+            AND category_id = ?
+        """
+        CURSOR.execute(sql, (quote_text,author,category_id))
+        existing_quote_data = CURSOR.fetchone()
+        CONN.commit()
+        if existing_quote_data:
+            return cls(*existing_quote_data)  #return the existing quote object
+        else:
+            return None
     
     def save(self):
         """insert a new row with attribute values of the quote using primary key id
