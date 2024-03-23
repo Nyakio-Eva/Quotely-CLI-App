@@ -155,5 +155,20 @@ class Quote:
         categories = [Category.find_by_id(category_id) for category_id in category_ids if category_id is not None]
         return categories
 
+    @classmethod
+    def delete(cls, quote_id):
+        """Delete a quote from the database and the local dictionary based on its ID"""
+        # Check if the quote ID exists in the local dictionary
+        if quote_id in cls.all:
+            # Delete from database
+            sql = "DELETE FROM quotes WHERE id = ?"
+            CURSOR.execute(sql, (quote_id,))
+            CONN.commit()
+
+            # Delete from local dictionary
+            del cls.all[quote_id]
+            print(f"Quote with ID {quote_id} deleted successfully.")
+        else:
+            print(f"Quote with ID {quote_id} not found.")
 
 from models.category import Category
