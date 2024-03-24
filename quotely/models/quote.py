@@ -11,17 +11,7 @@ class Quote:
 
     def __repr__(self) -> str:
         return f"<Quote: {self.quote_text}, {self.author}, Author: {self.category_id}, Category: {self.id}>"
-    # @property
-    # def quote_text(self):
-    #     return self._quote_text
-
-    # @quote_text.setter
-    # def quote_text(self, quote_text):
-    #     if isinstance(quote_text, str) and len(quote_text):
-    #         self._quote_text = quote_text
-    #     else:
-    #         raise ValueError("quote must be a non-empty string")
-
+    
     @property
     def author(self):
         return self._author

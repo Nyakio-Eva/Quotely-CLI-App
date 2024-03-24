@@ -11,22 +11,6 @@ class Category:
     def __repr__(self) -> str:
         return f"<Category: {self.name}, {self.id} >"    
     
-
-    # @property
-    # def name(self):
-    #     return self.name 
-
-    # @name.setter
-    # def name(self, name):
-    #     if isinstance(name, str):
-    #         cleaned_name = name.strip()   #remove trailing whitespaces
-    #         if cleaned_name and  len(cleaned_name) >= 2 and len(cleaned_name) <= 15:
-    #             self.name = cleaned_name
-    #         else:
-    #             raise ValueError("name must be between 2 and 15 characters")
-                
-    #     else:
-    #         raise ValueError("name must be a non-empty string")
         
     @classmethod
     def create_table(cls):
