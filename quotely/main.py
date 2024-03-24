@@ -44,8 +44,8 @@ try:
     print("New quote created successfully:", new_quote)
     print("New quote created successfully:", new_quote2)
 
-    Quote.delete(8)  # Delete the quote with ID 11
-    Quote.delete(15)  # Delete the quote with ID 13
+    Quote.delete_quote(8)  # Delete the quote with ID 11
+    Quote.delete_quote(15)  # Delete the quote with ID 13
     
     updated_quote = Quote.update_quote(5, "Life is soup and I'm a fork", "unknown", 5 )
     print(f"Updated quote:", updated_quote)

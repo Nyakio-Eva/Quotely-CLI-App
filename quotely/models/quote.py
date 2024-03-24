@@ -182,7 +182,7 @@ class Quote:
         
         
     @classmethod
-    def delete(cls, quote_id):
+    def delete_quote(cls, quote_id):
         """Delete a quote from the database and the local dictionary based on its ID"""
         # Check if the quote ID exists in the local dictionary
         if quote_id in cls.all:

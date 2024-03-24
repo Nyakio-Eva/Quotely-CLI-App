@@ -177,8 +177,9 @@ class Category:
     @classmethod
     def delete(cls, category_id):
         """Delete a category from the database and the local dictionary based on its ID"""
-        # Check if the category ID exists in the local dictionary
-        if category_id in cls.all:
+        category = cls.find_by_id(category_id)
+        
+        if category:
             # Delete from database
             sql = "DELETE FROM categories WHERE id = ?"
             CURSOR.execute(sql, (category_id,))
@@ -186,7 +187,7 @@ class Category:
 
             # Delete from local dictionary
             del cls.all[category_id]
-            print(f"Category with ID {category_id} deleted successfully.")
+            print(f"Category '{category.name}' deleted successfully.")
         else:
             print(f"Category with ID {category_id} not found.")
 
