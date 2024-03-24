@@ -15,19 +15,40 @@ def display_quotes_cli():
 
 
 def find_quotes_by_author_cli():
-    author_name = input("Enter the author's name to view quotes: ")
-    quotes = Quote.get_quotes_by_author(author_name)
-    print(quotes) if quotes else print(
-        f'Quotes by {author_name} not found!')
+    author_names = Quote.get_all_author_names()
+
+    print("Available authors:", end=" ") #no new line
     
+    #display author names as alist
+    print(list(author_names))
+
+    author_name = input("Enter the author's name to view quotes: ")
+
+    quotes = Quote.get_quotes_by_author(author_name)  
+    print(quotes) if quotes else print(f'Quotes by {author_name} not found!')  
 
 def find_quote_by_id_cli():
-    quote_id = input("Enter the quote's id: ")
+    quote_ids = Quote.get_all_quotes_ids()
+
+    print("Available Quote IDs: ")
+
+    #print the ids as a list of strings separated by commas
+    print(f"[{', '.join(map(str, quote_ids))}]")
+
+    quote_id = input("Enter the quote's id: ") 
+
     quote = Quote.find_by_id(quote_id)
     print(quote) if quote else print(f'Quote {quote_id} not found!')
 
 
 def find_categories_by_author_cli():
+    author_names = Quote.get_all_author_names()
+
+    print("Available authors:", end=" ") #no new line
+    
+    #display author names as alist
+    print(list(author_names))
+
     author_name = input("Enter author's name to view categories: ")
     categories = Quote.get_categories_for_author(author_name)
     print(categories) if categories else print(
@@ -37,7 +58,16 @@ def find_categories_by_author_cli():
 def create_quote_cli():
     quote_text = input("Enter the quote text: ")
     author = input("Enter author's name: ")
-    category_id = input("Enter the category id: ")
+
+    #display available categories
+    print("Available categories: ")
+    display_categories_cli()
+
+    category_id = input("Enter the category ID or '12' to create a new category: ")
+    if category_id == '12':
+        create_category_cli()
+        category_id = input("Enter the newly created category ID: ")
+    
     try:
         quote = Quote.create(quote_text, author, category_id)
         print(f'Quote added successfully: {quote}')
@@ -47,7 +77,7 @@ def create_quote_cli():
 
 def update_quote_cli():
     quote_id = input("Enter the quote's id: ")
-    if quote_id := Quote.find_by_id(quote_id):
+    if Quote.find_by_id(quote_id):
         try:
             quote_text = input("Enter the new quote text: ")
             author = input("Enter new author name: ")
@@ -70,7 +100,7 @@ def delete_quote_cli():
     if Quote.find_by_id(quote_id):
         confirm_delete = input(f"Are you sure you want to delete quote {quote_id} (yes/no): ")
         if confirm_delete.lower() == 'yes':
-            Quote.delete(quote_id)
+            Quote.delete_quote(quote_id)
             print(f'Quote {quote_id} deleted successfully!')
         else:
             print("Deletion canceled!")
