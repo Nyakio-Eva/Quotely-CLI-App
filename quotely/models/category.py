@@ -124,15 +124,17 @@ class Category:
         """retrieve all categories from the database""" 
         sql = "SELECT * FROM categories"
         CURSOR.execute(sql)
-        all_categories_data = CURSOR.fetchall()
+        categories_data = CURSOR.fetchall()
         
         all_categories = []
-        for category_data in all_categories_data:
+        for category_data in categories_data:
             category_instance = cls(*category_data)
             all_categories.append(category_instance)
            
         return all_categories
-        
+
+    
+    @classmethod    
     def get_quotes_for_categories(cls, category_ids):
         """retrieve quotes belonging to categories specified by their ids"""
 
@@ -184,10 +186,12 @@ class Category:
             sql = "DELETE FROM categories WHERE id = ?"
             CURSOR.execute(sql, (category_id,))
             CONN.commit()
+            
+            if category_id in cls.all:
+                # Delete from local dictionary
+                del cls.all[category_id]
+            
 
-            # Delete from local dictionary
-            del cls.all[category_id]
-            print(f"Category '{category.name}' deleted successfully.")
         else:
             print(f"Category with ID {category_id} not found.")
 

@@ -3,7 +3,7 @@ from models.category import Category
 
 
 def exit_program():
-    print("Hope to see you again!")
+    print("See you again!")
     exit()
 
 
@@ -132,8 +132,14 @@ def find_category_by_id_cli():
 def find_quotes_by_category_cli():
     category_ids = input("Enter category ids for quotes you want to view: ")
     quotes = Category.get_quotes_for_categories(category_ids)
-    print(quotes) if quotes else print(
-        f'Category ids {category_ids} not found')
+
+    if quotes:
+        print("Quotes:")
+        for quote in quotes:
+            print(quote)
+    else:
+        print(f'Category ids {category_ids} not found!')        
+
 
 def create_category_cli():
     name = input("Enter the category name: ")
@@ -145,7 +151,11 @@ def create_category_cli():
 
 
 def update_category_cli():
-    category_id = input("Enter the category's id: ")
+    print("Available category IDs: ")
+    display_categories_cli()
+
+    category_id = input("Enter the category's ID to edit: ")
+
     if Category.find_by_id(category_id):
         try:
             new_name = input ("Enter the category's new name: ")
@@ -158,17 +168,22 @@ def update_category_cli():
         except Exception as e:
             print("Error updating category: ", e)
     else:
-        print(f'Category {category_id} not found')
+        print(f'Category with ID {category_id} not found')
 
 
 def delete_category_cli():
-    category_id = input("Enter the category's id: ")
-    if category_found := Category.find_by_id(category_id):
+    print("Available category IDs: ")
+    display_categories_cli()
+
+    category_id = input("Enter the category's ID to delete: ")
+    category = Category.find_by_id(category_id)
+    if category:
         confirm_delete = input(
-            f"Are you sure you want to delete category '{category_found.name}'? (yes/no): ")
+            f"Are you sure you want to delete category '{category}'? (yes/no): ")
         if confirm_delete.lower() == 'yes':
-            category_found.delete()
-            print(f"Category '{category_found.name}' deleted successfully.")
+            Category.delete(category_id)
+
+            print(f"Category '{category}' deleted successfully.")
         else:
             print("Deletion canceled.")
     else:
