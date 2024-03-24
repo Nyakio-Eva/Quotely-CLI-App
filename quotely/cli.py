@@ -16,11 +16,32 @@ from helpers import (
     delete_category_cli
 )
 
+def display_menu():
+    print("Welcome to Quotely App!")
+    print("1. View all quotes")
+    print("2. Find quotes by author")
+    print("3. Find quote by ID")
+    print("4. Find categories by author")
+    print("5. Create a new quote")
+    print("6. Edit a quote")
+    print("7. Delete a quote")
+    print("8. View all categories")
+    print("9. Find category by name")
+    print("10. Find category by ID")
+    print("11. Find quotes by category")
+    print("12. Create a new category")
+    print("13. Edit a category")
+    print("14. Delete a category")
+    print("0. Exit the program!")
+    
+    choice = input("Please select an option: ") 
+    return choice
+
 
 def main():
     while True:
-        menu()
-        choice = input("> ")
+        choice = display_menu()
+
         if choice == "0":
             exit_program()
         elif choice == "1":
@@ -53,25 +74,6 @@ def main():
             delete_category_cli()
         else:
             print("Invalid choice, please enter a valid option")
-
-
-def menu():
-    print("Please select an option:")
-    print("0. Exit the program")
-    print("1. View all quotes")
-    print("2. Find quotes by author name")
-    print("3. Find quote by id ")
-    print("4. Find categories by author name")
-    print("5. Create quote")
-    print("6. Update quote")
-    print("7. Delete quote")
-    print("8. View all categories")
-    print("9. Find category by name")
-    print("10. Find category by 1d")
-    print("11. Find quotes by category")
-    print("12. Create category")
-    print("13. Update category")
-    print("14. Delete category")
 
 
 if __name__ == "__main__":
