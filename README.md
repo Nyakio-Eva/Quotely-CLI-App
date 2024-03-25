@@ -51,6 +51,59 @@ Quotely is a powerful and user-friendly Command Line Interface (CLI) application
 * Update a category-Users have the option to update existing categories by changing their names. This feature ensures that categories can be modified to better suit the organization of quotes.
 * Delete a category-Lastly, users can delete categories from the database. This feature is useful for removing outdated or unnecessary categories.
 
+### PseudoCode
+* To create a new quote use: quote = Quote.create("This is a new quote.", "Author Name", category id1)
+* Find quotes based on their id or author name:
+
+        Find quote by ID
+        quote_id = 1
+        quote = Quote.find_by_id(quote_id)
+
+        Find quotes by author
+        author_name = "Marie Smith"
+        quotes_by_author = Quote.get_quotes_by_author(author_name)
+
+* update an existing quote:
+
+        use the Quote.update_quote() method and provide the quote ID, new text, author, and category ID.
+        quote_id = 1
+        updated_quote = Quote.update_quote(quote_id, "Updated quote text.", "new Author name", new category 2)
+
+*  To delete a quote: 
+
+        use the Quote.delete_quote() method and provide the quote ID.
+        quote_id = 1
+        Quote.delete_quote(quote_id)
+
+* create a new category:
+
+      use the Category.create() method and provide the category name.
+      category = Category.create("Category Name")
+
+* find categories based on their ID or name.
+
+       Find category by ID
+       category_id = 1
+       category = Category.find_by_id(category_id)
+
+      Find category by name
+      category_name = "Category Name"
+      category = Category.find_by_name(category_name)  
+
+* update an existing category:
+
+      use the Category update_category() method and provide the category ID and new name. 
+      category_id = 1
+      updated_category = Category.update_category(category_id, "New Category Name")
+
+*To delete a category: 
+
+     use the Category.delete() method and provide the category ID.
+     category_id = 1
+     Category.delete(category_id)
+
+   
+
 ***By providing these functionalities,  Quotely CLI app offers a comprehensive system for managing quotes and categories, enhancing user experience and organization of quote-related data.***
 
 ### Support
