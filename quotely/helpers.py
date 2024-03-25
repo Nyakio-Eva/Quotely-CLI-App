@@ -176,34 +176,48 @@ def find_quotes_by_category_cli():
 
 
 def create_category_cli():
-    name = input("Enter the category name: ")
-    try:
-        category = Category.create(name)
-        print(f'Category created successfully: {category}')
-    except Exception as e:
-        print("Error creating category: ", e)
+    while True:
+        name = input("Enter the category name: ")
+        if name.strip():
+            try:
+                category = Category.create(name)
+                print(f'Category created successfully: {category}')
+                break
+
+            except Exception as e:
+                print("Error creating category: ", e)
+        else:
+            print("Error: category name cannot be empty.")
 
 
 def update_category_cli():
     print("Available category IDs: ")
     display_categories_cli()
 
-    category_id = input("Enter the category's ID to edit: ")
-
-    if Category.find_by_id(category_id):
-        try:
-            new_name = input ("Enter the category's new name: ")
-            updated_category = Category.update_category(category_id, new_name)
-            if updated_category:
-                print(f'Category updated successfuly: {updated_category}')
+    while True:
+        category_id = input("Enter the category's ID to edit: ")
+        if category_id.strip():  
+            if Category.find_by_id(category_id):
+                break
             else:
-                print("No category was updated.")    
-            
-        except Exception as e:
-            print("Error updating category: ", e)
-    else:
-        print(f'Category with ID {category_id} not found')
+                print(f'Category with ID {category_id} not found.')
+        else:
+            print("Error: Category ID cannot be empty.")
 
+    while True:
+        new_name = input("Enter the category's new name: ")
+        if new_name.strip():  
+            try:
+                updated_category = Category.update_category(category_id, new_name)
+                if updated_category:
+                    print(f'Category updated successfully: {updated_category}')
+                else:
+                    print("No category was updated.")
+                break  # Exit the loop if category update is successful
+            except Exception as e:
+                print("Error updating category: ", e)
+        else:
+            print("Error: New category name cannot be empty.")
 
 def delete_category_cli():
     print("Available category IDs: ")
