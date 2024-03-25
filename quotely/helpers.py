@@ -56,14 +56,31 @@ def find_categories_by_author_cli():
 
 
 def create_quote_cli():
-    quote_text = input("Enter the quote text: ")
-    author = input("Enter author's name: ")
+    while True:
+        quote_text = input("Enter the quote text: ")
+        if quote_text.strip():  #check if input in not empty after stripping
+            break
+        else:
+            print("Quote text cannot be empty. Please try again.")
+
+    while True:
+        author = input("Enter author's name: ")
+        if author.strip():
+            break
+        else:
+            print("Author's name cannot be empty. Please try again.")
 
     #display available categories
     print("Available categories: ")
     display_categories_cli()
 
-    category_id = input("Enter the category ID or '12' to create a new category: ")
+    while True:
+        category_id = input("Enter the category ID or '12' to create a new category: ")
+        if category_id.strip() and category_id.isdigit():
+            break
+        else:
+            print("Invalid category ID. Please enter a valid category ID or '12' to create a new category. ")    
+             
     if category_id == '12':
         create_category_cli()
         category_id = input("Enter the newly created category ID: ")
@@ -79,9 +96,26 @@ def update_quote_cli():
     quote_id = input("Enter the quote's id: ")
     if Quote.find_by_id(quote_id):
         try:
-            quote_text = input("Enter the new quote text: ")
-            author = input("Enter new author name: ")
-            category_id = input("Enter quote's category id: ")
+            while True:
+                quote_text = input("Enter the new quote text: ")
+                if quote_text.strip():
+                    break
+                else:
+                    print("Error: New quote text cannot be empty.")
+
+            while True:
+                author = input("Enter new author name: ")
+                if author.strip():
+                    break
+                else:
+                    print("Error: New author name cannot be empty.")
+
+            while True:
+                category_id = input("Enter quote's category id: ")
+                if category_id.strip() and category_id.isdigit():
+                    break
+                else:
+                    print("Error: category ID cannot be empty. Please enter a valid id")
 
             updated_quote = Quote.update_quote(quote_id, quote_text, author, category_id)
             if updated_quote:

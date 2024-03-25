@@ -106,11 +106,21 @@ Quotely is a powerful and user-friendly Command Line Interface (CLI) application
 
 ***By providing these functionalities,  Quotely CLI app offers a comprehensive system for managing quotes and categories, enhancing user experience and organization of quote-related data.***
 
-### Support
+### Contributing
+We welcome contributions to improve this system. If you have any suggestions, bug fixes, or enhancements, feel free to submit a pull request.
 
+### Support
 For any issues, feedback, or questions, please contact the Quotely team at evalkariuki@gmail.com.
 
 Enjoy your daily dose of inspiration with Quotely! 🌟
+
+
+### License
+This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
+
+
+
+
 
 
 
