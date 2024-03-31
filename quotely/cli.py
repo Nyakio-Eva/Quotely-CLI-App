@@ -16,8 +16,21 @@ from helpers import (
     delete_category_cli
 )
 
+import os
+
+def clear_screen():
+    #clear the screen based on the os
+    if os.name == 'nt': #for windows
+        os.system('cls')
+    else:
+        #for linux and macos
+        os.system('clear')
+
+
 def display_menu():
+    print()
     print("Welcome to Quotely App!")
+    print("Quotes Menu: ")
     print("1. View all quotes")
     print("2. Find quotes by author")
     print("3. Find quote by ID")
@@ -25,6 +38,8 @@ def display_menu():
     print("5. Create a new quote")
     print("6. Edit a quote")
     print("7. Delete a quote")
+    print()
+    print("Categories Menu: ")
     print("8. View all categories")
     print("9. Find category by name")
     print("10. Find category by ID")
@@ -32,11 +47,13 @@ def display_menu():
     print("12. Create a new category")
     print("13. Edit a category")
     print("14. Delete a category")
+    print()
     print("0. Exit the program!")
     
     choice = input("Please select an option: ") 
+    print()
     return choice
-
+    
 
 def main():
     while True:
