@@ -27,10 +27,13 @@ def clear_screen():
         os.system('clear')
 
 
-def display_menu():
-    print()
+def display_menu():   
+    print("-----------------------------")
     print("Welcome to Quotely App!")
+    print("-----------------------------")
+    print()
     print("Quotes Menu: ")
+    print("-----------------------------")
     print("1. View all quotes")
     print("2. Find quotes by author")
     print("3. Find quote by ID")
@@ -38,8 +41,9 @@ def display_menu():
     print("5. Create a new quote")
     print("6. Edit a quote")
     print("7. Delete a quote")
-    print()
+    print("------------------------------")
     print("Categories Menu: ")
+    print("------------------------------")
     print("8. View all categories")
     print("9. Find category by name")
     print("10. Find category by ID")
@@ -47,17 +51,16 @@ def display_menu():
     print("12. Create a new category")
     print("13. Edit a category")
     print("14. Delete a category")
-    print()
+    print("-----------------------------")
     print("0. Exit the program!")
-    
-    choice = input("Please select an option: ") 
-    print()
-    return choice
-    
+    print("-----------------------------")
 
 def main():
     while True:
-        choice = display_menu()
+        clear_screen()
+        display_menu()
+
+        choice = input("Please enter an option: ")
 
         if choice == "0":
             exit_program()
@@ -91,7 +94,7 @@ def main():
             delete_category_cli()
         else:
             print("Invalid choice, please enter a valid option")
-
+        input("Press Enter to continue...")
 
 if __name__ == "__main__":
     main()    
